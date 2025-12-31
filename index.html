@@ -4,8 +4,9 @@
   <meta charset="utf-8" />
   <title>Unity WebGL Player | Mulberry Shades</title>
 
+  <!-- Mobile scaling -->
   <meta name="viewport"
-        content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+        content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
   <style>
     html, body {
@@ -38,10 +39,11 @@
     <canvas id="unity-canvas" tabindex="-1"></canvas>
   </div>
 
+  <!-- Unity loader -->
   <script src="Build/Builds.loader.js"></script>
 
   <script>
-    const canvas = document.querySelector("#unity-canvas");
+    const canvas = document.getElementById("unity-canvas");
 
     createUnityInstance(canvas, {
       dataUrl: "Build/Builds.data",
@@ -51,10 +53,21 @@
       companyName: "LifeVR",
       productName: "Mulberry Shades",
       productVersion: "0.1",
-
-      // LET UNITY HANDLE RESIZE
       matchWebGLToCanvasSize: true
     });
+
+    /* Called from Unity (user gesture required) */
+    function EnterFullscreen() {
+      if (!canvas) return;
+
+      if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+      } else if (canvas.webkitRequestFullscreen) {
+        canvas.webkitRequestFullscreen();
+      } else if (canvas.msRequestFullscreen) {
+        canvas.msRequestFullscreen();
+      }
+    }
   </script>
 </body>
 </html>
